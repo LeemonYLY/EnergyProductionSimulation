@@ -7,44 +7,44 @@ public class EnergyProductionSimulation {
 			return;
 		}
 
-		double energyProduced = Double.parseDouble(args[0]);
-		double energyConsumed = Double.parseDouble(args[1]);
+		double producedEnergy = Double.parseDouble(args[0]);
+		double consumedEnergy = Double.parseDouble(args[1]);
 
-		double netEnergy = func1(energyProduced, energyConsumed);
-		double energyEfficiency = func2(energyProduced, energyConsumed);
-		double energyDensity = func3(energyProduced);
-		double finalResult = func4(netEnergy, energyEfficiency, energyDensity);
+		double netEnergy = calculateNetEnergy(producedEnergy, consumedEnergy);
+		double energyEfficiency = calculateEnergyEfficiency(producedEnergy, consumedEnergy);
+		double energyDensity = calculateEnergyDensity(producedEnergy);
+		double finalResult = calculateCombinedResult(netEnergy, energyEfficiency, energyDensity);
 
 		finalResult = Math.round(finalResult * 100) * 1.0 / 100;
 		System.out.println(finalResult);
 	}
 
 	// Function to calculate net energy (energy produced - energy consumed)
-	public static double func1(double energyProduced, double energyConsumed) {
-		double netEnergy1 = energyProduced * Math.log(energyConsumed);
-		double netEnergy2 = energyConsumed * Math.log(energyProduced);
+	public static double calculateNetEnergy(double producedEnergy, double consumedEnergy) {
+		double netEnergy1 = producedEnergy * Math.log(consumedEnergy);
+		double netEnergy2 = consumedEnergy * Math.log(producedEnergy);
 		return (netEnergy1 - netEnergy2) % 100000;
 	}
 
 	// Function to calculate energy efficiency based on energy produced and consumed
-	public static double func2(double energyProduced, double energyConsumed) {
+	public static double calculateEnergyEfficiency(double producedEnergy, double consumedEnergy) {
 		// Energy Efficiency = (Energy Produced / Energy Consumed) * 100
-		double energyEfficiency = (energyProduced / energyConsumed) * 100;
+		double energyEfficiency = (producedEnergy / consumedEnergy) * 100;
 		return energyEfficiency % 100000;
 	}
 
 	// Function to calculate energy density based on energy produced
-	public static double func3(double energyProduced) {
+	public static double calculateEnergyDensity(double producedEnergy) {
 		// Energy Density = Energy Produced / Volume
 		double volume = 10; // Volume in cubic meters
 
-		double energyDensity = energyProduced / volume * Math.exp((energyProduced / volume) % 5.2);
+		double energyDensity = producedEnergy / volume * Math.exp((producedEnergy / volume) % 5.2);
 		return energyDensity % 100000;
 	}
 
 	// Function to calculate a combined value based on net energy, energy
 	// efficiency, and energy density
-	public static double func4(double netEnergy, double energyEfficiency, double energyDensity) {
+	public static double calculateCombinedResult(double netEnergy, double energyEfficiency, double energyDensity) {
 		// Example combined value: (net energy * energy efficiency) / energy density
 		double finalResult = (netEnergy * energyEfficiency) / energyDensity;
 		return finalResult % 100000;
